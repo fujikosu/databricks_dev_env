@@ -1,0 +1,8 @@
+flake8
+pytest-cov
+pytest
+databricks-cli
+yapf
+bandit
+mypy
+jupyter

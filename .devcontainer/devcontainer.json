@@ -1,0 +1,24 @@
+{
+	"name": "PySpark",
+	"dockerComposeFile": "docker-compose.yml",
+	"workspaceFolder": "/workspace",
+	"service": "pyspark",
+	"context": "..",
+	"extensions": [
+		"ms-python.python",
+		"njpwerner.autodocstring",
+		"ionutvmi.path-autocomplete",
+		"paiqo.databricks-vscode"
+	],
+	"settings": {
+		"python.pythonPath": "/usr/local/bin/python",
+		"python.venvPath": "/.envs",
+		"python.linting.banditEnabled": true,
+		"python.linting.flake8Enabled": true,
+		"python.testing.pytestEnabled": true,
+		"python.linting.mypyEnabled": true,
+		"editor.formatOnSave": true,
+		"python.formatting.provider": "yapf",
+		"autoDocstring.docstringFormat": "google"
+	}
+}
