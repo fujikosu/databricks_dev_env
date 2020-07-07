@@ -1,4 +1,4 @@
-FROM python:3.7-stretch
+FROM python:3.7.8-stretch
 
 # Configure apt
 ENV DEBIAN_FRONTEND=noninteractive
@@ -23,14 +23,13 @@ COPY requirements*.txt /workspace/
 
 # Install for local pyspark env
 RUN python -m venv /.envs/local_spark_env
-RUN /.envs/local_spark_env/bin/pip install -r requirements_local.txt \
-    && /.envs/local_spark_env/bin/pip install -r requirements_dev.txt
-
+RUN /.envs/local_spark_env/bin/pip install -r requirements_dev.txt \
+    && /.envs/local_spark_env/bin/pip install -r requirements_local.txt 
 
 # Install for databricks-connect pyspark env
 RUN python -m venv /.envs/db_connect_env
-RUN /.envs/db_connect_env/bin/pip install -r requirements_db_connect.txt \
-    && /.envs/db_connect_env/bin/pip install -r requirements_dev.txt
+RUN /.envs/db_connect_env/bin/pip install -r requirements_dev.txt \
+    && /.envs/db_connect_env/bin/pip install -r requirements_db_connect.txt
 
 
 # Need this to use environment variables for databricks-connect setting
