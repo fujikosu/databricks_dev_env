@@ -6,4 +6,4 @@ databricks-cli
 yapf
 bandit
 mypy
-jupyter
+ipywidgets
