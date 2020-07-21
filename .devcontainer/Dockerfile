@@ -15,8 +15,21 @@ RUN apt-get install -y libicu[0-9][0-9]
 RUN apt-get install -y openjdk-8-jdk
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
+# Install nodejs and npm for jupyterlab extensions
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
+
 RUN mkdir /workspace
 WORKDIR /workspace
+
+# Install jupyterlab into default python
+RUN python -m pip install jupyterlab jupyterlab_code_formatter
+
+# Install jupyterlab extensions
+COPY labextensions.txt /workspace/
+RUN while read line; do jupyter labextension install --no-build $line; done < labextensions.txt 
+RUN jupyter lab build
+RUN rm labextensions.txt
 
 # Copy Python requirements files for the later installation
 COPY requirements*.txt /workspace/
@@ -31,6 +44,9 @@ RUN python -m venv /.envs/db_connect_env
 RUN /.envs/db_connect_env/bin/pip install -r requirements_dev.txt \
     && /.envs/db_connect_env/bin/pip install -r requirements_db_connect.txt
 
+# Register both venvs as jupyter kernel
+RUN /.envs/local_spark_env/bin/python -m ipykernel install --user --name local_spark_env --display-name "local_spark_env"
+RUN /.envs/db_connect_env/bin/python -m ipykernel install --user --name db_connect_env --display-name "db_connect_env"
 
 # Need this to use environment variables for databricks-connect setting
 # https://forums.databricks.com/questions/21536/databricks-connect-configuration-not-possible-with.html
